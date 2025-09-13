@@ -7,7 +7,7 @@ app = FastAPI()
 items = []
 
 class Item(BaseModel):
-    text:str = None
+    text:str
     is_done:bool = False
 
 @app.get("/")
@@ -18,11 +18,10 @@ def root():
 @app.post("/items", response_model=List[Item])
 def create_item(item:Item):
     items.append(item)
-   #print(item)
     return items
 
 @app.get("/items/{item_id}", response_model=Item)
-def get_item(item_id:int) -> Item:
+def get_item(item_id:int):
     if item_id < len(items):
         return items[item_id]
     else:
