@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from typing import List
 
 app = FastAPI()
 
@@ -14,13 +15,13 @@ def root():
     return {"Hello" : "World"}
 
 
-@app.post("/items")
+@app.post("/items", response_model=List[Item])
 def create_item(item:Item):
     items.append(item)
-    print(item)
+   #print(item)
     return items
 
-@app.get("/items/{item_id}")
+@app.get("/items/{item_id}", response_model=Item)
 def get_item(item_id:int) -> Item:
     if item_id < len(items):
         return items[item_id]
